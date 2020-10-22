@@ -78,7 +78,7 @@ Database
         - hit_points: double
         - attack: double
         - special_ability: varchar(100)
-        - created_by: (foreign_key) user_id
+        - user_id: (foreign_key)
         - created_at: timestamp
         - updated_at: timestamp
     - team
@@ -86,10 +86,10 @@ Database
         - name: varchar(100)
         - side: varchar(20)
         - user_id: (foreign_key) user_id
-        - created_by: (foreign_key) user_id
         - created_at: timestamp
         - updated_at: timestamp
     - team_heros
+        - id (primary_key)
         - team_id: (foreign_key)
         - hero_id: (foreign_key)
         - created_at: timestamp
@@ -102,11 +102,18 @@ Cached team combat power may speed up the team info request
 
 ### TODO
 - Database migration
+    - create user table
+    - create hero table
+    - create team table
+    - create team_heros join table
 - Define Models using Laravel eloquent ORM
-    - Define one-to-many relations
+    - app/Models/Hero.php
+    - app/Models/Team.php
 - Define a Controller
 - Define services
-    - Define team combat power calculation
+    - app/Services/HeroService.php
+    - app/Services/TeamService.php
+    - app/Services/CombatService.php
 - Define Routers
 - Define blade view pages
 
