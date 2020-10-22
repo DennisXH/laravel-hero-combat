@@ -1,61 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## My Hero Team
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Goal
 
-## About Laravel
+Create a web-based game to view and manage user hero and team
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### User Story
+- As user, I want to create a new hero
+- As user, I want to create a new team with existing hero
+- As a user, I want to view my teams I created before
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Requirement
+- Database
+    - DB Name: codetest
+- URL
+    - /myheroes/ -  Show User's Teams
+    - /myheroes/createhero - A page that has a form to create a new hero
+    - /myheroes/createteam - A page that has a form to create a new team
+- Hero Attributes
+    - Hero Name
+        - type: String
+    - Side
+        - type: String
+        - description: Either light or dark side
+    - Hit Points
+        - type: double
+        - description: Maximum amounts of damage that a hero can take
+    - Attack
+        - type: double
+        - description: Amount of damage 
+    - Special Ability
+        - type: String
+        - description: Hero unique ability
+- Team Attributes
+    - Team Name
+        - type: String
+    - Side (Light or dark)
+        - type: String
+    - Heros - only allow to choose in one side 
+    - Combat power - Calculate based on heros(Hit Point and Attack) in the team
+    
+### System Design
+**Scenario**
+- Need to create some hero(both sides) before create a team
+- list all the teams including hero properties
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Service**
+- User Service
+    - UserService.getCurrentUser()
+- Hero Service
+    - HeroService.createHero(heroFormData)
+    - HeroService.getHeros(side)
+- Team Service
+    - TeamService.createTeam(TeamFormData)
+    - TeamService.getTeams(UserId)
+- Combat Service
+    - CombatService.calculateCombatPower(TeamId) TBD
 
-## Learning Laravel
+**API**
+- POST /api/hero
+- POST /api/Teams
+- GET  /api/teams
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Storage**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Database
+- InnoDB engine Mysql Database
+- Using Transaction when storing data
+- Table
+    - user
+        - id (primary_key)
+        - name: varchar(100)
+        - created_at: timestamp
+    - hero
+        - id (primary_key)
+        - name: varchar(100)
+        - side: varchar(20)
+        - hit_points: double
+        - attack: double
+        - special_ability: varchar(100)
+        - created_by: (foreign_key) user_id
+        - created_at: timestamp
+        - updated_at: timestamp
+    - team
+        - id (primary_key)
+        - name: varchar(100)
+        - side: varchar(20)
+        - user_id: (foreign_key) user_id
+        - created_by: (foreign_key) user_id
+        - created_at: timestamp
+        - updated_at: timestamp
+    - team_heros
+        - team_id: (foreign_key)
+        - hero_id: (foreign_key)
+        - created_at: timestamp
+        - updated_at: timestamp
+        - deleted_at: timestamp
 
-## Laravel Sponsors
+**Scale**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Cached team combat power may speed up the team info request
 
-### Premium Partners
+### TODO
+- Database migration
+- Define Models using Laravel eloquent ORM
+    - Define one-to-many relations
+- Define a Controller
+- Define services
+    - Define team combat power calculation
+- Define Routers
+- Define blade view pages
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
