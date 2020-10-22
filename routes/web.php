@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HeroController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('heros', HeroController::class)->only([
+    'index','create', 'store'
+]);
+
+Route::resource('teams', TeamController::class)->only([
+    'index','create', 'store'
+]);
+
+
+

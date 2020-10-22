@@ -1,0 +1,33 @@
+### TODO
+- Database migration
+    - create user table
+    - create hero table
+    - create team table
+    - create team_heros join table
+- Define Models using Laravel eloquent ORM
+    - Classes
+        - app/Models/Hero.php
+        - app/Models/Team.php
+    - Define one-to-one and one-to-many relationship
+- Define Routers
+    - hero resource api
+    - team resource api
+- Define Controllers
+    - HeroController
+        - index()
+        - create()
+        - store()
+    - TeamController
+        - index()
+        - create()
+        - store()
+    - User/TeamController
+        - index()
+- Define services
+    - app/Services/HeroService.php
+    - app/Services/TeamService.php
+    - app/Services/CombatService.php
+- Define blade view pages
+    - resources/views/create-hero.blade.php
+    - resources/views/create-team.blade.php
+    - resources/views/myteam.blade.php

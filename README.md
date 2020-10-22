@@ -44,6 +44,10 @@ Create a web-based game to view and manage user hero and team
 - Need to create some hero(both sides) before create a team
 - list all the teams including hero properties
 
+**Security**
+- Authentication
+    - Using OAuth 2.0 to manage API Authentication
+
 **Service**
 - User Service
     - UserService.getCurrentUser()
@@ -100,21 +104,5 @@ Database
 
 Cached team combat power may speed up the team info request
 
-### TODO
-- Database migration
-    - create user table
-    - create hero table
-    - create team table
-    - create team_heros join table
-- Define Models using Laravel eloquent ORM
-    - app/Models/Hero.php
-    - app/Models/Team.php
-- Define a Controller
-- Define services
-    - app/Services/HeroService.php
-    - app/Services/TeamService.php
-    - app/Services/CombatService.php
-- Define Routers
-- Define blade view pages
 
 
